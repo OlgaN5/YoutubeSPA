@@ -3,10 +3,10 @@ const {
     User
 } = require('../models/assotiation')
 class LoginService {
-    async getUser(login, email) {
-        const identificator = login || email
+    async getUser(parameters) {
+        const identificator = parameters.login ? 'login' : 'email'
         return accessToDatabase.readOne(User, {
-            [identificator]: identificator
+            [identificator]: parameters[identificator]
         })
 
     }

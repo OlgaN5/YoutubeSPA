@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken')
 const {
     validationResult
 } = require('express-validator')
+
+const Sentry = require('@sentry/node')
+
 class LoginController {
     async login(req, res) {
         try {
@@ -15,7 +18,10 @@ class LoginController {
                     email,
                     password
                 } = req.body
-                const user = await loginService.getUser(login, email)
+                const user = await loginService.getUser({
+                    login,
+                    email
+                })
 
                 if (user) {
                     const compare = await bcrypt.compare(password, user.password)
@@ -29,7 +35,6 @@ class LoginController {
                         }, process.env.SECRET_KEY)
                     }
                 }
-                console.log('token', token)
                 if (!token) return res.status(400).json({
                     'message': 'login not exist'
                 })
@@ -40,7 +45,7 @@ class LoginController {
                 })
             }
         } catch (e) {
-            console.log(e.message)
+            Sentry.captureException(e)
         }
     }
 }

@@ -2,6 +2,9 @@ const userService = require('../services/user.service.js')
 const {
     validationResult
 } = require('express-validator')
+
+const Sentry = require('@sentry/node')
+
 class UserController {
     async logout(req, res) {
         try {
@@ -14,7 +17,7 @@ class UserController {
                 })
             }
         } catch (e) {
-            console.log(e)
+            Sentry.captureException(e)
         }
     }
     async aggGoogleToken(req, res) {
@@ -22,7 +25,6 @@ class UserController {
             const result = validationResult(req)
             if (result.isEmpty()) {
                 const result = await userService.aggGoogleToken(req.userId, req.body.googleToken)
-                console.log(result)
                 res.send(result)
             } else {
                 res.send({
@@ -30,7 +32,7 @@ class UserController {
                 })
             }
         } catch (e) {
-            console.log(e)
+            Sentry.captureException(e)
         }
     }
 }

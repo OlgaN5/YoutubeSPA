@@ -3,9 +3,7 @@ const jwt = require('jsonwebtoken')
 function authenticate(req, res, next) {
     try {
         const auth = req.headers.authorization
-        console.log(auth)
         const token = auth && auth.split(' ')[1]
-        console.log(token)
         if (!token) return res.status(401).json({
             message: 'not token'
         })

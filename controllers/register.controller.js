@@ -3,12 +3,14 @@ const bcrypt = require('bcrypt')
 const {
     validationResult
 } = require('express-validator')
+
+const Sentry = require('@sentry/node')
+
 class RegisterController {
     async register(req, res) {
         try {
             const result = validationResult(req)
             if (result.isEmpty()) {
-                // let user = null
                 const saltRounds = 4
                 const {
                     email,
@@ -21,7 +23,6 @@ class RegisterController {
                 const conditionsLogin = {
                     login
                 }
-                console.log('user')
                 const isEmail = await registerService.findUserByConditions(conditionsEmail)
                 const isLogin = await registerService.findUserByConditions(conditionsLogin)
 
@@ -49,7 +50,7 @@ class RegisterController {
                 })
             }
         } catch (e) {
-            console.log(e.message)
+            Sentry.captureException(e)
         }
     }
 }

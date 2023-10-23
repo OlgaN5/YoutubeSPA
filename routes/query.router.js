@@ -11,14 +11,12 @@ const {
 
 
 const queryValidation = param('query').notEmpty().escape()
-const idValidation = param('query').notEmpty().escape()
+const idValidation = param('id').notEmpty().escape()
 const parametersQueryValidation = [
     body('maxCount').optional().isInt(),
     body('sortBy').optional().isString(),
 ]
 const savedQueryValidation = parametersQueryValidation.concat(idValidation)
-
-
 
 /**
  * @swagger

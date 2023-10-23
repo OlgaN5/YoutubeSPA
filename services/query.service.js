@@ -12,7 +12,6 @@ class QueryService {
             part: 'id',
             maxResults: 10
         }
-        console.log(user)
         const pageToken = prevPageToken || nextPageToken
         if (pageToken) {
             params.pageToken = pageToken
@@ -20,7 +19,6 @@ class QueryService {
         const videos = await axios.get('https://www.googleapis.com/youtube/v3/search', {
             params
         })
-        console.log(videos)
         accessToDatabase.create(Query, {
             text: query,
             userId: user.id

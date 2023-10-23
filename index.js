@@ -4,7 +4,18 @@ dotenv.config()
 const express = require('express')
 const indexRouter = require('./routes/index.router')
 
+
 const app = express()
+
+//sentry
+const Sentry = require('@sentry/node')
+Sentry.init({
+    dsn: process.env.DSN,
+});
+
+app.use(Sentry.Handlers.requestHandler())
+app.use(Sentry.Handlers.errorHandler())
+
 const port = process.env.PORT || 4000
 // app.set("port", port);
 app.use(express.json())
@@ -49,24 +60,24 @@ const swaggerOptions = {
 }
 const swaggerDocs = swaggerJSDoc(swaggerOptions)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+let server
 
+// main
+async function main() {
+    // database
+    await db.authenticate()
+    await User.sync()
+    await Query.sync()
+    await SavedQuery.sync()
 
-//main
-// async function main() {
-//database
-// await db.authenticate()
-// await User.sync()
-// await Query.sync()
-// await SavedQuery.sync()
+    // start server
 
-//start server
+    server = app.listen(port, () => console.log(`port started on port ${port}`))
 
-const server = app.listen(port, () => console.log(`port started on port ${port}`))
-
-//routing
-app.use('/api', indexRouter)
-// }
-// main()
+    //routing
+    app.use('/api', indexRouter)
+}
+main()
 
 module.exports = {
     app,

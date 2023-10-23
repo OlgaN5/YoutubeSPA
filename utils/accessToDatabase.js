@@ -1,10 +1,10 @@
 const {
-    SavedQuery
+    SavedQuery,
+    Query
 } = require("../models/assotiation")
 
 class AccessToDatabase {
     async create(Model, data) {
-        console.log('!!!!!!!!!!!!!!!!')
         return await Model.create(data)
     }
     async update(Model, id, dataToUpdate) {
@@ -16,12 +16,16 @@ class AccessToDatabase {
         })
     }
     async updateQuery(id, dataToUpdate) {
+        const savedQuery = await SavedQuery.findOne({
+            where: {
+                id
+            },
+            raw: true
+        })
+        const queryId = savedQuery.queryId
         return await Query.update(dataToUpdate, {
-            includes: {
-                model: SavedQuery,
-                where: {
-                    id
-                }
+            where: {
+                id: queryId
             },
             raw: true
         })
