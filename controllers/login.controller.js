@@ -1,4 +1,5 @@
 const loginService = require('../services/login.service')
+const userService = require('../services/user.service')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const {
@@ -18,14 +19,14 @@ class LoginController {
                     email,
                     password
                 } = req.body
-                const user = await loginService.getUser({
-                    login,
-                    email
-                })
+                const identificator = login ? 'login' : 'email'
+                const conditions = {
+                    [identificator]: req.body[identificator]
+                }
+                const user = await userService.findUserByConditions(conditions)
 
                 if (user) {
                     const compare = await bcrypt.compare(password, user.password)
-                    console.log(password, user.password)
                     const {
                         id
                     } = user

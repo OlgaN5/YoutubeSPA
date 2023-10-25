@@ -5,7 +5,7 @@ const {
 } = require('express-validator')
 
 const Sentry = require('@sentry/node')
-
+const userService = require('../services/user.service')
 class RegisterController {
     async register(req, res) {
         try {
@@ -23,8 +23,8 @@ class RegisterController {
                 const conditionsLogin = {
                     login
                 }
-                const isEmail = await registerService.findUserByConditions(conditionsEmail)
-                const isLogin = await registerService.findUserByConditions(conditionsLogin)
+                const isEmail = await userService.findUserByConditions(conditionsEmail)
+                const isLogin = await userService.findUserByConditions(conditionsLogin)
 
                 if (isEmail) {
                     return res.status(400).json({
@@ -37,7 +37,7 @@ class RegisterController {
                     })
                 }
                 const hashedPassword = await bcrypt.hashSync(password, saltRounds)
-                const user = await registerService.createUser({
+                const user = await userService.createUser({
                     email,
                     login,
                     password: hashedPassword

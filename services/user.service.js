@@ -8,10 +8,11 @@ class UserService {
             googleToken: key
         })
     }
-    async findUser(id) {
-        return await accessToDatabase.readOne(User, {
-            id
-        })
+    async createUser(data) {
+        return accessToDatabase.create(User, data)
+    }
+    async findUserByConditions(conditions) {
+        return accessToDatabase.readOne(User, conditions)
     }
 }
 module.exports = new UserService()

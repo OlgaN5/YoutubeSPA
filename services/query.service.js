@@ -6,9 +6,13 @@ const {
 } = require('../models/assotiation')
 class QueryService {
     async getVideos(user, query, prevPageToken, nextPageToken) {
+        const userGoogleToken = user.googleToken
+        if (!userGoogleToken) {
+            return null
+        }
         const params = {
             q: query,
-            key: user.googleToken,
+            key: userGoogleToken,
             part: 'id',
             maxResults: 10
         }

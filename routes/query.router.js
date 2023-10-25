@@ -5,8 +5,7 @@ const router = express.Router()
 
 const {
     body,
-    param,
-    query
+    param
 } = require('express-validator')
 
 

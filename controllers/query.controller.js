@@ -11,8 +11,11 @@ class QueryController {
         try {
             const result = validationResult(req)
             if (result.isEmpty()) {
-                const user = await userService.findUser(req.userId)
+                const user = await userService.findUserByConditions({
+                    id: req.userId
+                })
                 const result = await queryService.getVideos(user, req.params.query, req.query.prevPageToken, req.query.nextPageToken)
+                if (!result) return res.status(403).json('need a google token')
                 res.send(result)
             } else {
                 res.send({
