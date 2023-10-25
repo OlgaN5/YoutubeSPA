@@ -68,7 +68,7 @@ router.get('/getVideos/:query', queryValidation, authenticate, queryController.g
  *             properties:
  *               maxCount:
  *                 type: integer
- *                 default: null
+ *                 default: 1
  *               sortBy:
  *                 type: string
  *                 default: ''
@@ -102,7 +102,7 @@ router.post('/saveQuery/:id', savedQueryValidation, authenticate, queryControlle
  *             properties:
  *               maxCount:
  *                 type: integer
- *                 default: null
+ *                 default: 1
  *               sortBy:
  *                 type: string
  *                 default: ''
