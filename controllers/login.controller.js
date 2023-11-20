@@ -39,7 +39,9 @@ class LoginController {
                 if (!token) return res.status(400).json({
                     'message': 'login not exist'
                 })
-                res.send(token)
+                res.send({
+                    accessToken: token
+                })
             } else {
                 res.send({
                     error: result.array()
