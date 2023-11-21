@@ -1,12 +1,18 @@
 const dotenv = require('dotenv')
 dotenv.config()
 
+const cors = require('cors')
+
 const express = require('express')
 const indexRouter = require('./routes/index.router')
 
 
 const app = express()
 
+app.use(cors({
+    origin: 'http://localhost:3000',
+    allowedHeaders: 'Authorization'
+}))
 //sentry
 const Sentry = require('@sentry/node')
 Sentry.init({
