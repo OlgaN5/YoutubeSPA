@@ -45,10 +45,38 @@ const registerValidation = [
  *     description: returns registered user
  *     summary: use to register user
  *     responses:
- *       '200': 
+ *       '201': 
  *         description: User registered succesfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 login: 
+ *                   type: string
+ *                   default: login
+ *                 email: 
+ *                   type: string
+ *                   default: email@gmail.com
+ *                 googleToken: 
+ *                   type: object
+ *                   default: null
+ *                 createdAt: 
+ *                   type: string
+ *                   default: 2023-11-21T11:46:49.630Z
+ *                 updatedAt: 
+ *                   type: string
+ *                   default: 2023-11-21T11:46:49.630Z
  *       '400': 
- *         description: Email or login is exist       
+ *         description: Bad Request  
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: 
+ *                   type: string
+ *                   default: login is exist   
  */
 
 router.post('/', registerValidation, registerController.register)

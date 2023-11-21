@@ -22,10 +22,13 @@ class UserController {
     }
     async aggGoogleToken(req, res) {
         try {
+            console.log('111111')
             const result = validationResult(req)
             if (result.isEmpty()) {
                 const result = await userService.aggGoogleToken(req.userId, req.body.googleToken)
-                res.send(result)
+                res.send({
+                    countUpdated: result[0]
+                })
             } else {
                 res.send({
                     error: result.array()

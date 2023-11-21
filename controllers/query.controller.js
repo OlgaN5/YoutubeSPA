@@ -46,7 +46,9 @@ class QueryController {
             const result = validationResult(req)
             if (result.isEmpty()) {
                 const result = await queryService.updateQuery(req.params.id, req.body)
-                res.send(result)
+                res.send({
+                    countUpdated: result[0]
+                })
             } else {
                 res.send({
                     error: result.array()

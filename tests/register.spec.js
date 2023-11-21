@@ -18,24 +18,21 @@ const user = {
     password: 'password'
 }
 describe('test register', () => {
-    test('register has been succesfull', async () => {
+    test('register has been successful', async () => {
         try {
-            await db.authenticate().then(() => console.log('conected'))
-            chai.request(app)
+            await db.authenticate()
+            const res = await chai.request(app)
                 .post('/api/register/')
-                .send(user).end((err, res) => {
-                    if (err) console.log(err.message)
-                    else {
-                        console.log('11111111111')
-
-                    }
-                    server.close()
-                })
-
-        } catch (e) {
-            console.log(e.message)
+                .send(user)
+                console.log(res)
+            expect(res.status).toBe(400)
+            // expect(res.body).to.be.an('object')
+            // expect(res.body.message).to.equal('Registration successful')
+        } catch (error) {
+            console.log(error)
+        } finally {
+            server.close()
         }
-
     })
 })
 

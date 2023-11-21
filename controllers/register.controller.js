@@ -43,7 +43,9 @@ class RegisterController {
                     password: hashedPassword
                 })
 
-                res.send(user)
+                res.status(201)
+                    .set('Status-Text', 'User created')
+                    .send(user)
             } else {
                 res.send({
                     error: result.array()

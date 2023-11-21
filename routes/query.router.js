@@ -41,6 +41,32 @@ const savedQueryValidation = parametersQueryValidation.concat(idValidation)
  *     responses:
  *       '200':
  *         descrition: query is succesfull
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 kind:
+ *                   type: string
+ *                   default: youtube#searchListResponse
+ *                 etag:
+ *                   type: string
+ *                   default: MvV4lWwegggmKXjwjVySW_70q7k
+ *                 otherField:
+ *                   type: string
+ *                   default: ...
+ *       '401':
+ *         descrition: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/NoTokenResponse'
+ *       '403':
+ *         descrition: Forbidden
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/NoGoogleTokenResponse'
  */
 router.get('/getVideos/:query', queryValidation, authenticate, queryController.getVideos)
 /**
@@ -75,6 +101,29 @@ router.get('/getVideos/:query', queryValidation, authenticate, queryController.g
  *     responses:
  *       '200':
  *         descrition: query has saved succesfull
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   default: 1
+ *                 queryId:
+ *                   type: string
+ *                   default: 1
+ *                 createdAt:
+ *                   type: string
+ *                   default: 2023-11-21T15:12:35.638Z
+ *                 updatedAt:
+ *                   type: string
+ *                   default: 2023-11-21T15:12:35.638Z
+ *       '401':
+ *         descrition: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/NoTokenResponse'
  */
 router.post('/saveQuery/:id', savedQueryValidation, authenticate, queryController.saveQuery)
 /**
@@ -109,6 +158,20 @@ router.post('/saveQuery/:id', savedQueryValidation, authenticate, queryControlle
  *     responses:
  *       '200':
  *         descrition: query has saved succesfull
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 countUpdated:
+ *                   type: integer
+ *                   default: 1
+ *       '401':
+ *         descrition: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/NoTokenResponse'
  */
 router.post('/editSavedQuery/:id', savedQueryValidation, authenticate, queryController.editSavedQuery)
 

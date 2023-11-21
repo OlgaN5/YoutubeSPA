@@ -34,6 +34,10 @@ class LoginController {
                         token = jwt.sign({
                             id
                         }, process.env.SECRET_KEY)
+                    }else{
+                        res.status(401).json({
+                            'message': 'password invalid'
+                        })
                     }
                 }
                 if (!token) return res.status(400).json({

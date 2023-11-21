@@ -11,8 +11,22 @@ const addTokenValidation = [
 ]
 
 router.get('/logout', authenticate, userController.logout)
-/**s
+/**
  * @swagger
+ * components:
+ *   schemas:
+ *     NoTokenResponse:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           default: no token  
+ *     NoGoogleTokenResponse:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           default: need a google token  
  * /api/user/addGoogleToken:
  *   post:
  *     tags: 
@@ -35,6 +49,20 @@ router.get('/logout', authenticate, userController.logout)
  *     responses:
  *       '200':
  *         descrition: query has saved succesfull
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 countUpdated:
+ *                   type: integer
+ *                   default: 1
+ *       '401':
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/NoTokenResponse'
  */
 router.post('/addGoogleToken', addTokenValidation, authenticate, userController.aggGoogleToken)
 module.exports = router

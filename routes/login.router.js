@@ -33,8 +33,34 @@ const loginController = require('../controllers/login.controller')
  *     responses:
  *       '200':
  *         description: Logged in
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 accessToken:
+ *                   type: string
+ *                   default: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzAwNTc0MjA2fQ.3dUH8wUMJVx__Kp1-7RDo6L47e2HccbcwYpnDnYvCjA
  *       '400':
  *         description: Bad Request 
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   default: login not exist
+ *       '401':
+ *         description: Unauthorized 
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   default: password invalid
  */
 router.post('/', loginValidation, loginController.login)
 
