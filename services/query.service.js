@@ -13,7 +13,7 @@ class QueryService {
         const params = {
             q: query,
             key: userGoogleToken,
-            part: 'id',
+            part: 'snippet',
             maxResults: 10
         }
         const pageToken = prevPageToken || nextPageToken
