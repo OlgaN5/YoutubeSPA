@@ -1,11 +1,9 @@
 const express = require('express')
+
 const {
-    body
-} = require('express-validator')
-const loginValidation = [
-    body('login').notEmpty().escape().isString(),
-    body('password').notEmpty().isString(),
-]
+    loginValidation
+} = require('../utils/validations')
+
 const router = express.Router()
 const loginController = require('../controllers/login.controller')
 /**

@@ -7,14 +7,14 @@ const {
 const Sentry = require('@sentry/node')
 
 class QueryController {
-    async getVideos(req, res) {
+    async search(req, res) {
         try {
             const result = validationResult(req)
             if (result.isEmpty()) {
                 const user = await userService.findUserByConditions({
                     id: req.userId
                 })
-                const result = await queryService.getVideos(user, req.params.query, req.query.prevPageToken, req.query.nextPageToken)
+                const result = await queryService.search(user, req.params.query, req.query.prevPageToken, req.query.nextPageToken)
                 if (!result) return res.status(403).json('need a google token')
                 res.send(result)
             } else {

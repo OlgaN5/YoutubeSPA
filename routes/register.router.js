@@ -2,23 +2,9 @@ const express = require('express')
 const registerController = require('../controllers/register.controller')
 
 const router = express.Router()
-
 const {
-    body
-} = require('express-validator')
-
-
-const registerValidation = [
-    body('login').notEmpty().escape().isString().isLength({
-        min: 3,
-        max: 10
-    }).withMessage('Login has to be between 3 and 10'),
-    body('email').notEmpty().escape().isString().isEmail().withMessage(`It isn't email`),
-    body('password').notEmpty().escape().isString().isLength({
-        min: 3,
-        max: 15
-    }).withMessage('Password has to be between 3 and 15'),
-]
+    registerValidation
+} = require('../utils/validations')
 /**
  * @swagger
  * /api/register/:

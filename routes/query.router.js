@@ -4,19 +4,62 @@ const authenticate = require('../utils/authenticate')
 const router = express.Router()
 
 const {
-    body,
-    param
-} = require('express-validator')
+    queryValidation,
+    savedQueryValidation
+} = require('../utils/validations')
 
-
-const queryValidation = param('query').notEmpty().escape()
-const idValidation = param('id').notEmpty().escape()
-const parametersQueryValidation = [
-    body('maxCount').optional().isInt(),
-    body('sortBy').optional().isString(),
-]
-const savedQueryValidation = parametersQueryValidation.concat(idValidation)
-
+/**
+ * @swagger
+ * /api/query/search/{query}:
+ *   get:
+ *     tags: 
+ *       - Query
+ *     summary: use to get videos
+ *     descrition: returns result of query
+ *     security: 
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: query
+ *         in: path
+ *         required: true
+ *         default: video
+ *       - name: nextPageToken
+ *         in: query
+ *         required: false
+ *       - name: prevPageToken
+ *         in: query
+ *         required: false
+ *     responses:
+ *       '200':
+ *         descrition: query is succesfull
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 kind:
+ *                   type: string
+ *                   default: youtube#searchListResponse
+ *                 etag:
+ *                   type: string
+ *                   default: MvV4lWwegggmKXjwjVySW_70q7k
+ *                 otherField:
+ *                   type: string
+ *                   default: ...
+ *       '401':
+ *         descrition: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/NoTokenResponse'
+ *       '403':
+ *         descrition: Forbidden
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/NoGoogleTokenResponse'
+ */
+router.get('/search/:query', queryValidation, authenticate, queryController.search)
 /**
  * @swagger
  * /api/query/getVideos/{query}:
@@ -68,7 +111,7 @@ const savedQueryValidation = parametersQueryValidation.concat(idValidation)
  *             schema:
  *               $ref: '#/components/schemas/NoGoogleTokenResponse'
  */
-router.get('/getVideos/:query', queryValidation, authenticate, queryController.getVideos)
+// router.get('/getVideos/:query', queryValidation, authenticate, queryController.getVideos)
 /**
  * @swagger
  * /api/query/saveQuery/{id}:

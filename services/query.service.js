@@ -1,16 +1,19 @@
 const accessToDatabase = require('../utils/accessToDatabase')
 const axios = require('axios')
+
 const {
     Query,
     SavedQuery
 } = require('../models/assotiation')
+const sanitizer = require('../utils/sanitizer')
 class QueryService {
-    async getVideos(user, query, prevPageToken, nextPageToken) {
+    async search(user, query, prevPageToken, nextPageToken) {
         const userGoogleToken = user.googleToken
+        console.log(userGoogleToken)
         if (!userGoogleToken) {
             return null
         }
-        const params = {
+        const searchParams = {
             q: query,
             key: userGoogleToken,
             part: 'snippet',
@@ -18,11 +21,27 @@ class QueryService {
         }
         const pageToken = prevPageToken || nextPageToken
         if (pageToken) {
-            params.pageToken = pageToken
+            searchParams.pageToken = pageToken
         }
-        const videos = await axios.get('https://www.googleapis.com/youtube/v3/search', {
-            params
+        const searchResult = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+            params: searchParams
         })
+        const pagination = {
+            nextPageToken: searchResult.data.nextPageToken || null,
+            prevPageToken: searchResult.data.nextPageToken || null
+        }
+        // console.log(videos)
+        const videosId = searchResult.data.items.map((item) => item.id.videoId).join(',')
+        let videos = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
+            params: {
+                key: userGoogleToken,
+                part: 'snippet,statistics',
+                id: videosId,
+            }
+        })
+
+        videos.data.pageInfo.pagination = pagination
+        videos = await sanitizer.sanitizeVideos(videos)
         accessToDatabase.create(Query, {
             text: query,
             userId: user.id
