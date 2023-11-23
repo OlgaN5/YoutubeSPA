@@ -28,7 +28,7 @@ class QueryService {
         })
         const pagination = {
             nextPageToken: searchResult.data.nextPageToken || null,
-            prevPageToken: searchResult.data.nextPageToken || null
+            prevPageToken: searchResult.data.prevPageToken || null
         }
         // console.log(videos)
         const videosId = searchResult.data.items.map((item) => item.id.videoId).join(',')

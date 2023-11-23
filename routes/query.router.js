@@ -62,58 +62,6 @@ const {
 router.get('/search/:query', queryValidation, authenticate, queryController.search)
 /**
  * @swagger
- * /api/query/getVideos/{query}:
- *   get:
- *     tags: 
- *       - Query
- *     summary: use to get videos
- *     descrition: returns result of query
- *     security: 
- *       - bearerAuth: []
- *     parameters:
- *       - name: query
- *         in: path
- *         required: true
- *         default: video
- *       - name: nextPageToken
- *         in: query
- *         required: false
- *       - name: prevPageToken
- *         in: query
- *         required: false
- *     responses:
- *       '200':
- *         descrition: query is succesfull
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 kind:
- *                   type: string
- *                   default: youtube#searchListResponse
- *                 etag:
- *                   type: string
- *                   default: MvV4lWwegggmKXjwjVySW_70q7k
- *                 otherField:
- *                   type: string
- *                   default: ...
- *       '401':
- *         descrition: Unauthorized
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/NoTokenResponse'
- *       '403':
- *         descrition: Forbidden
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/NoGoogleTokenResponse'
- */
-// router.get('/getVideos/:query', queryValidation, authenticate, queryController.getVideos)
-/**
- * @swagger
  * /api/query/saveQuery/{id}:
  *   post:
  *     tags: 
