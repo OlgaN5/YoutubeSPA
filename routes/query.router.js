@@ -29,6 +29,9 @@ const {
  *       - name: prevPageToken
  *         in: query
  *         required: false
+ *       - name: countResult
+ *         in: query
+ *         required: false
  *     responses:
  *       '200':
  *         descrition: query is succesfull
@@ -37,15 +40,12 @@ const {
  *             schema:
  *               type: object
  *               properties:
- *                 kind:
- *                   type: string
- *                   default: youtube#searchListResponse
- *                 etag:
- *                   type: string
- *                   default: MvV4lWwegggmKXjwjVySW_70q7k
- *                 otherField:
- *                   type: string
- *                   default: ...
+ *                 items:
+ *                   type: array
+ *                   default: []
+ *                 pageInfo:
+ *                   type: object
+ *                   default: {}
  *       '401':
  *         descrition: Unauthorized
  *         content:
@@ -154,9 +154,9 @@ router.post('/saveQuery/:id', savedQueryValidation, authenticate, queryControlle
  *             schema:
  *               type: object
  *               properties:
- *                 countUpdated:
+ *                 message:
  *                   type: integer
- *                   default: 1
+ *                   default: token added
  *       '401':
  *         descrition: Unauthorized
  *         content:

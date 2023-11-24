@@ -54,9 +54,9 @@ router.get('/logout', authenticate, userController.logout)
  *             schema:
  *               type: object
  *               properties:
- *                 countUpdated:
+ *                 message:
  *                   type: integer
- *                   default: 1
+ *                   default: token added
  *       '401':
  *         description: Unauthorized
  *         content:

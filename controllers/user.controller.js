@@ -26,8 +26,9 @@ class UserController {
             const result = validationResult(req)
             if (result.isEmpty()) {
                 const result = await userService.aggGoogleToken(req.userId, req.body.googleToken)
+                const message = result ? 'token added' : 'token not added'
                 res.send({
-                    countUpdated: result[0]
+                    message: message
                 })
             } else {
                 res.send({

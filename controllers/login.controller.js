@@ -16,12 +16,14 @@ class LoginController {
                 let token = null
                 const {
                     login,
-                    email,
                     password
                 } = req.body
-                const identificator = login ? 'login' : 'email'
+                // const identificator = login ? 'login' : 'email'
+                // const conditions = {
+                //     [identificator]: req.body[identificator]
+                // }
                 const conditions = {
-                    [identificator]: req.body[identificator]
+                    login: login
                 }
                 const user = await userService.findUserByConditions(conditions)
 
@@ -34,7 +36,7 @@ class LoginController {
                         token = jwt.sign({
                             id
                         }, process.env.SECRET_KEY)
-                    }else{
+                    } else {
                         res.status(401).json({
                             'message': 'password invalid'
                         })

@@ -17,7 +17,7 @@ class QueryService {
         })
         return videos.data
     }
-    async search(query, pageToken, userGoogleToken) {
+    async search(query, pageToken, userGoogleToken, countResult) {
         if (pageToken) {
             searchParams.pageToken = pageToken
         }
@@ -25,14 +25,14 @@ class QueryService {
             q: query,
             key: userGoogleToken,
             part: 'snippet',
-            maxResults: 10
+            maxResults: countResult||10
         }
         const searchResult = await axios.get('https://www.googleapis.com/youtube/v3/search', {
             params: searchParams
         })
         return searchResult.data
     }
-    async getResults(user, query, prevPageToken, nextPageToken) {
+    async getResults(user, query, prevPageToken, nextPageToken, countResult) {
         const userGoogleToken = user.googleToken
         if (!userGoogleToken) {
             return null
@@ -42,7 +42,7 @@ class QueryService {
             return queryFromCache
         }
         const pageToken = prevPageToken || nextPageToken
-        const searchResult = await this.search(query, pageToken, userGoogleToken)
+        const searchResult = await this.search(query, pageToken, userGoogleToken, countResult)
         const pagination = {
             nextPageToken: searchResult.nextPageToken || null,
             prevPageToken: searchResult.prevPageToken || null

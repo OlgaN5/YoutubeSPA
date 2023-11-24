@@ -14,7 +14,7 @@ class QueryController {
                 const user = await userService.findUserByConditions({
                     id: req.userId
                 })
-                const result = await queryService.getResults(user, req.params.query, req.query.prevPageToken, req.query.nextPageToken)
+                const result = await queryService.getResults(user, req.params.query, req.query.prevPageToken, req.query.nextPageToken, req.query.countResult)
                 if (!result) return res.status(403).json('need a google token')
                 res.send(result)
             } else {
@@ -46,8 +46,9 @@ class QueryController {
             const result = validationResult(req)
             if (result.isEmpty()) {
                 const result = await queryService.updateQuery(req.params.id, req.body)
+                const message = result ? 'query edited' : 'query not edited'
                 res.send({
-                    countUpdated: result[0]
+                    message: message
                 })
             } else {
                 res.send({
