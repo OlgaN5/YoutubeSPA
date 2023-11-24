@@ -14,7 +14,7 @@ class QueryController {
                 const user = await userService.findUserByConditions({
                     id: req.userId
                 })
-                const result = await queryService.search(user, req.params.query, req.query.prevPageToken, req.query.nextPageToken)
+                const result = await queryService.getResults(user, req.params.query, req.query.prevPageToken, req.query.nextPageToken)
                 if (!result) return res.status(403).json('need a google token')
                 res.send(result)
             } else {

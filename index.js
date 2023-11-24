@@ -11,7 +11,7 @@ let app
 async function main() {
     const port = process.env.PORT || 4000
     app = express()
-    applyConfigSettings(app)
+    await applyConfigSettings(app)
     app.use(express.json())
     await connectDatabase()
     server = app.listen(port, () => console.log(`port started on port ${port}`))
