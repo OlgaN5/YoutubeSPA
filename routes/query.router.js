@@ -89,7 +89,7 @@ router.get('/search/:query', queryValidation, authenticate, queryController.sear
  *                 type: string
  *                 default: ''
  *     responses:
- *       '200':
+ *       '201':
  *         descrition: query has saved succesfull
  *         content:
  *           application/json:

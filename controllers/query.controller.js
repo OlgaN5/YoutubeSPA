@@ -31,7 +31,13 @@ class QueryController {
             const result = validationResult(req)
             if (result.isEmpty()) {
                 const result = await queryService.saveQuery(req.params.id, req.body)
-                res.send(result)
+                if (result) {
+                    res.status(201)
+                        .set('Status-Text', 'Saved query created')
+                        .send(result)
+                } else {
+                    res.send('error')
+                }
             } else {
                 res.send({
                     error: result.array()

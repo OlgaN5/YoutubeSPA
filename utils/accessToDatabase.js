@@ -5,7 +5,11 @@ const {
 
 class AccessToDatabase {
     async create(Model, data) {
-        return await Model.create(data)
+        try {
+            return await Model.create(data)
+        } catch {
+            return null
+        }
     }
     async update(Model, id, dataToUpdate) {
         return await Model.update(dataToUpdate, {
@@ -42,7 +46,7 @@ class AccessToDatabase {
             raw: true
         })
     }
-    async delete(Model,conditions){
+    async delete(Model, conditions) {
         console.log(conditions)
         return await Model.destroy({
             where: conditions,
