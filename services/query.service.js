@@ -25,13 +25,15 @@ class QueryService {
             q: query,
             key: userGoogleToken,
             part: 'snippet',
-            maxResults: countResult||10
+            maxResults: countResult || 10
         }
         const searchResult = await axios.get('https://www.googleapis.com/youtube/v3/search', {
             params: searchParams
         })
+      
         return searchResult.data
     }
+
     async getResults(user, query, prevPageToken, nextPageToken, countResult) {
         const userGoogleToken = user.googleToken
         if (!userGoogleToken) {

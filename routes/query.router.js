@@ -41,11 +41,9 @@ const {
  *               type: object
  *               properties:
  *                 items:
- *                   type: array
- *                   default: []
+ *                   $ref: '#/components/schemas/Items'
  *                 pageInfo:
- *                   type: object
- *                   default: {}
+ *                   $ref: '#/components/schemas/PageInfo'
  *       '401':
  *         descrition: Unauthorized
  *         content:
