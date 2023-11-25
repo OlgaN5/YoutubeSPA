@@ -21,6 +21,9 @@ const loginController = require('../controllers/login.controller')
  *         application/json:
  *           schema:
  *             type: object
+ *             required: 
+ *               - login
+ *               - password
  *             properties:
  *               login:
  *                 type: string

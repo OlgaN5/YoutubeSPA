@@ -18,6 +18,10 @@ const {
  *         application/json:
  *           schema: 
  *             type: object
+ *             required: 
+ *               - login
+ *               - email
+ *               - password
  *             properties: 
  *               login:
  *                 type: string

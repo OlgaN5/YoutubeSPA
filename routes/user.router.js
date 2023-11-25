@@ -130,6 +130,8 @@ router.get('/logout', authenticate, userController.logout)
  *         application/json:
  *           schema:
  *             type: object
+ *             required: 
+ *               - googleToken
  *             properties:
  *               googleToken:
  *                 type: string

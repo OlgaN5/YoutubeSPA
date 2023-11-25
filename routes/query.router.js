@@ -118,7 +118,7 @@ router.post('/saveQuery/:id', savedQueryValidation, authenticate, queryControlle
 /**
  * @swagger
  * /api/query/editSavedQuery/{id}:
- *   post:
+ *   patch:
  *     tags: 
  *       - Query
  *     summary: use to edit query
@@ -162,6 +162,6 @@ router.post('/saveQuery/:id', savedQueryValidation, authenticate, queryControlle
  *             schema:
  *               $ref: '#/components/schemas/NoTokenResponse'
  */
-router.post('/editSavedQuery/:id', savedQueryValidation, authenticate, queryController.editSavedQuery)
+router.patch('/editSavedQuery/:id', savedQueryValidation, authenticate, queryController.editSavedQuery)
 
 module.exports = router
