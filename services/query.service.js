@@ -30,7 +30,7 @@ class QueryService {
         const searchResult = await axios.get('https://www.googleapis.com/youtube/v3/search', {
             params: searchParams
         })
-      
+
         return searchResult.data
     }
 
@@ -70,6 +70,12 @@ class QueryService {
     }
     async updateQuery(savedQueryId, dataToUpdate) {
         return accessToDatabase.updateQuery(savedQueryId, dataToUpdate)
+    }
+    async deleteSavedQuery(id) {
+        return await accessToDatabase.delete(SavedQuery, {
+            id
+        })
+
     }
 }
 module.exports = new QueryService()

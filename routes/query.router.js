@@ -5,7 +5,8 @@ const router = express.Router()
 
 const {
     queryValidation,
-    savedQueryValidation
+    savedQueryValidation,
+    idValidation
 } = require('../utils/validations')
 
 /**
@@ -163,5 +164,41 @@ router.post('/saveQuery/:id', savedQueryValidation, authenticate, queryControlle
  *               $ref: '#/components/schemas/NoTokenResponse'
  */
 router.patch('/editSavedQuery/:id', savedQueryValidation, authenticate, queryController.editSavedQuery)
-
+/**
+ * @swagger
+ * /api/query/deleteSavedQuery/{id}:
+ *   delete:
+ *     tags: 
+ *       - Query
+ *     summary: use to delete saved query
+ *     descrition: returns deleted query
+ *     security: 
+ *       - bearerAuth: []
+ *     parameters:
+ *        - name: id
+ *          in: path
+ *          required: true
+ *          default: 1
+ *     responses:
+ *       '200':
+ *         descrition: query has deleted succesfull
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   default: deleted successful
+ *                 countDeleted:
+ *                   type: integer
+ *                   default: 1
+ *       '401':
+ *         descrition: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/NoTokenResponse'
+ */
+router.delete('/deleteSavedQuery/:id', idValidation, authenticate, queryController.deleteSavedQuery)
 module.exports = router

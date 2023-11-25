@@ -30,6 +30,7 @@ const savedQueryValidation = parametersQueryValidation.concat(idValidation)
 
 
 module.exports = {
+    idValidation,
     loginValidation,
     queryValidation,
     savedQueryValidation,

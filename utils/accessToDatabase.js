@@ -42,6 +42,13 @@ class AccessToDatabase {
             raw: true
         })
     }
+    async delete(Model,conditions){
+        console.log(conditions)
+        return await Model.destroy({
+            where: conditions,
+            // raw: true
+        })
+    }
 }
 
 

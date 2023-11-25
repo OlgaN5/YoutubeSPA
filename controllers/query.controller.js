@@ -59,5 +59,24 @@ class QueryController {
             Sentry.captureException(e)
         }
     }
+    async deleteSavedQuery(req, res) {
+        try {
+            const result = validationResult(req)
+            if (result.isEmpty()) {
+                const query = await queryService.deleteSavedQuery(+req.params.id)
+                console.log(query)
+                res.send({
+                    message: 'deleted successful',
+                    countDeleted: query
+                })
+            } else {
+                res.send({
+                    error: result.array()
+                })
+            }
+        } catch (e) {
+            Sentry.captureException(e)
+        }
+    }
 }
 module.exports = new QueryController()
