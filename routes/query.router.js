@@ -33,6 +33,9 @@ const {
  *       - name: countResult
  *         in: query
  *         required: false
+ *       - name: sortBy
+ *         in: query
+ *         required: false
  *     responses:
  *       '200':
  *         descrition: query is succesfull
@@ -61,7 +64,7 @@ const {
 router.get('/search/:query', queryValidation, authenticate, queryController.search)
 /**
  * @swagger
- * /api/query/getFavorites:
+ * /api/query/getFavourites:
  *   get:
  *     tags: 
  *       - Query
@@ -96,7 +99,7 @@ router.get('/search/:query', queryValidation, authenticate, queryController.sear
  *             schema:
  *               $ref: '#/components/schemas/NoTokenResponse'
  */
-router.get('/getFavorites', authenticate, queryController.getFavorites)
+router.get('/getFavourites', authenticate, queryController.getFavourites)
 /**
  * @swagger
  * /api/query/saveQuery/{id}:
@@ -120,6 +123,9 @@ router.get('/getFavorites', authenticate, queryController.getFavorites)
  *           schema:
  *             type: object
  *             properties:
+ *               title:
+ *                 type: string
+ *                 default: name
  *               maxCount:
  *                 type: integer
  *                 default: 1

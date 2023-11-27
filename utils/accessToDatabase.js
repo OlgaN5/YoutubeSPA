@@ -44,18 +44,11 @@ class AccessToDatabase {
     async readAll(Model, conditions) {
         console.log(conditions)
         const result = await SavedQuery.findAll({
-            // where: {
-            //     userId: 1
-            // },
+
             include: {
                 model: Query,
                 where: conditions,
                 attributes: ['text', 'maxCount', 'sortBy']
-                // sequelize.fn(
-                //     'json_build_object',
-                //     sequelize.literal('"text"'),
-                //     sequelize.col('query.text')
-                // ), 'result'
             },
             attributes: ['id'],
             raw: true

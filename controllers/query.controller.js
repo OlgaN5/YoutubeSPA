@@ -14,7 +14,7 @@ class QueryController {
                 const user = await userService.findUserByConditions({
                     id: req.userId
                 })
-                const result = await queryService.getResults(user, req.params.query, req.query.prevPageToken, req.query.nextPageToken, req.query.countResult)
+                const result = await queryService.getResults(user, req.params.query, req.query.prevPageToken, req.query.nextPageToken, req.query.title, req.query.countResult, req.query.sortBy)
                 if (!result) return res.status(403).json('need a google token')
                 res.send(result)
             } else {
@@ -88,11 +88,11 @@ class QueryController {
             Sentry.captureException(e)
         }
     }
-    async getFavorites(req, res) {
+    async getFavourites(req, res) {
         try {
             const result = validationResult(req)
             if (result.isEmpty()) {
-                const favorites = await queryService.getFavorites(req.userId)
+                const favorites = await queryService.getFavourites(req.userId)
                 res.send(favorites)
             } else {
                 res.send({

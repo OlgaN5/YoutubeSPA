@@ -17,15 +17,17 @@ class QueryService {
         })
         return videos.data
     }
-    async search(query, pageToken, userGoogleToken, countResult) {
+    async search(query, pageToken, userGoogleToken, countResult, sortBy) {
         if (pageToken) {
             searchParams.pageToken = pageToken
         }
+        console.log(sortBy)
         const searchParams = {
             q: query,
             key: userGoogleToken,
             part: 'snippet',
-            maxResults: countResult || 10
+            maxResults: countResult || 10,
+            order: sortBy || 'relevance'
         }
         const searchResult = await axios.get('https://www.googleapis.com/youtube/v3/search', {
             params: searchParams
@@ -34,7 +36,7 @@ class QueryService {
         return searchResult.data
     }
 
-    async getResults(user, query, prevPageToken, nextPageToken, countResult) {
+    async getResults(user, query, prevPageToken, nextPageToken, title, countResult, sortBy) {
         const userGoogleToken = user.googleToken
         if (!userGoogleToken) {
             return null
@@ -44,7 +46,7 @@ class QueryService {
             return queryFromCache
         }
         const pageToken = prevPageToken || nextPageToken
-        const searchResult = await this.search(query, pageToken, userGoogleToken, countResult)
+        const searchResult = await this.search(query, pageToken, userGoogleToken, countResult, sortBy)
         const pagination = {
             nextPageToken: searchResult.nextPageToken || null,
             prevPageToken: searchResult.prevPageToken || null
@@ -54,10 +56,11 @@ class QueryService {
         let videos = await this.getVideos(videosId, userGoogleToken)
         videos = await structure.transformate(videos, pagination, pageInfo)
         cache.setCache('queryCache', query, videos)
-        accessToDatabase.create(Query, {
+        const createdQuery = await accessToDatabase.create(Query, {
             text: query,
             userId: user.id
         })
+        videos.queryId = createdQuery.dataValues.id
         return videos
     }
 
@@ -71,7 +74,7 @@ class QueryService {
     async updateQuery(savedQueryId, dataToUpdate) {
         return accessToDatabase.updateQuery(savedQueryId, dataToUpdate)
     }
-    async getFavorites(id) {
+    async getFavourites(id) {
         return await accessToDatabase.readAll(SavedQuery, {
             userId: id
         })

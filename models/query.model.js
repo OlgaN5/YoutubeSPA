@@ -7,6 +7,11 @@ module.exports = db.define('query', {
         primaryKey: true,
         allowNull: false
     },
+    title: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: false
+    },
     text: {
         type: Sequelize.STRING,
         allowNull: false,
