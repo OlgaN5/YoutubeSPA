@@ -41,8 +41,13 @@ class QueryService {
         if (!userGoogleToken) {
             return null
         }
+        const createdQuery = await accessToDatabase.create(Query, {
+            text: query,
+            userId: user.id
+        })
         const queryFromCache = cache.getCache('queryCache', query)
         if (queryFromCache) {
+            queryFromCache.queryId = createdQuery.dataValues.id
             return queryFromCache
         }
         const pageToken = prevPageToken || nextPageToken
@@ -56,10 +61,7 @@ class QueryService {
         let videos = await this.getVideos(videosId, userGoogleToken)
         videos = await structure.transformate(videos, pagination, pageInfo)
         cache.setCache('queryCache', query, videos)
-        const createdQuery = await accessToDatabase.create(Query, {
-            text: query,
-            userId: user.id
-        })
+        console.log(createdQuery.dataValues)
         videos.queryId = createdQuery.dataValues.id
         return videos
     }

@@ -48,6 +48,9 @@ const {
  *                   $ref: '#/components/schemas/Items'
  *                 pageInfo:
  *                   $ref: '#/components/schemas/PageInfo'
+ *                 queryId:
+ *                   type: string
+ *                   default: 3
  *       '401':
  *         descrition: Unauthorized
  *         content:
