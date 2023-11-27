@@ -48,11 +48,12 @@ class AccessToDatabase {
             include: {
                 model: Query,
                 where: conditions,
-                attributes: ['text', 'maxCount', 'sortBy']
+                attributes: ['title','text', 'maxCount', 'sortBy']
             },
             attributes: ['id'],
-            raw: true
+            // raw: афдыу
         })
+        console.log('11111111')
         console.log(result)
         return result
     }
