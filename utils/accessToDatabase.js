@@ -1,15 +1,16 @@
 const {
     SavedQuery,
-    Query
+    Query,
+    User
 } = require("../models/assotiation")
-
+const sequelize = require('sequelize')
 class AccessToDatabase {
     async create(Model, data) {
-        try {
-            return await Model.create(data)
-        } catch {
-            return null
-        }
+        // try {
+        return await Model.create(data)
+        // } catch {
+        // return null
+        // }
     }
     async update(Model, id, dataToUpdate) {
         return await Model.update(dataToUpdate, {
@@ -41,10 +42,26 @@ class AccessToDatabase {
         })
     }
     async readAll(Model, conditions) {
-        return await Model.findAll({
-            where: conditions,
+        console.log(conditions)
+        const result = await SavedQuery.findAll({
+            // where: {
+            //     userId: 1
+            // },
+            include: {
+                model: Query,
+                where: conditions,
+                attributes: ['text', 'maxCount', 'sortBy']
+                // sequelize.fn(
+                //     'json_build_object',
+                //     sequelize.literal('"text"'),
+                //     sequelize.col('query.text')
+                // ), 'result'
+            },
+            attributes: ['id'],
             raw: true
         })
+        console.log(result)
+        return result
     }
     async delete(Model, conditions) {
         console.log(conditions)

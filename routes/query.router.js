@@ -61,6 +61,44 @@ const {
 router.get('/search/:query', queryValidation, authenticate, queryController.search)
 /**
  * @swagger
+ * /api/query/getFavorites:
+ *   get:
+ *     tags: 
+ *       - Query
+ *     summary: use to get videos
+ *     descrition: returns result of query
+ *     security: 
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         descrition: query is succesfull
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   default: 4
+ *                 query.text:
+ *                   type: string
+ *                   default: video
+ *                 query.maxCount:
+ *                   type: integer
+ *                   default: 4
+ *                 query.sortBy:
+ *                   type: string
+ *                   default: video
+ *       '401':
+ *         descrition: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/NoTokenResponse'
+ */
+router.get('/getFavorites', authenticate, queryController.getFavorites)
+/**
+ * @swagger
  * /api/query/saveQuery/{id}:
  *   post:
  *     tags: 

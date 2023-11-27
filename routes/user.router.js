@@ -3,12 +3,10 @@ const userController = require('../controllers/user.controller')
 
 const router = express.Router()
 const authenticate = require('../utils/authenticate')
+
 const {
-    body
-} = require('express-validator')
-const addTokenValidation = [
-    body('googleToken').notEmpty().escape().isString()
-]
+    addTokenValidation
+} = require('../utils/validations')
 
 router.get('/logout', authenticate, userController.logout)
 /**

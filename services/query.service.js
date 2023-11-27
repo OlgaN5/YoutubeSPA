@@ -71,11 +71,17 @@ class QueryService {
     async updateQuery(savedQueryId, dataToUpdate) {
         return accessToDatabase.updateQuery(savedQueryId, dataToUpdate)
     }
+    async getFavorites(id) {
+        return await accessToDatabase.readAll(SavedQuery, {
+            userId: id
+        })
+    }
     async deleteSavedQuery(id) {
         return await accessToDatabase.delete(SavedQuery, {
             id
         })
 
     }
+
 }
 module.exports = new QueryService()

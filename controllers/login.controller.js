@@ -54,6 +54,7 @@ class LoginController {
                 })
             }
         } catch (e) {
+            res.send(e.message)
             Sentry.captureException(e)
         }
     }

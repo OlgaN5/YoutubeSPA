@@ -52,6 +52,7 @@ class RegisterController {
                 })
             }
         } catch (e) {
+            res.send(e.message)
             Sentry.captureException(e)
         }
     }

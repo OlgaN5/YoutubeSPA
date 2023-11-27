@@ -28,11 +28,15 @@ const parametersQueryValidation = [
 ]
 const savedQueryValidation = parametersQueryValidation.concat(idValidation)
 
+const addTokenValidation = [
+    body('googleToken').notEmpty().escape().isString()
+]
 
 module.exports = {
     idValidation,
     loginValidation,
     queryValidation,
     savedQueryValidation,
-    registerValidation
+    registerValidation,
+    addTokenValidation
 }

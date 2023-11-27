@@ -23,6 +23,7 @@ class QueryController {
                 })
             }
         } catch (e) {
+            res.send(e.message)
             Sentry.captureException(e)
         }
     }
@@ -31,19 +32,20 @@ class QueryController {
             const result = validationResult(req)
             if (result.isEmpty()) {
                 const result = await queryService.saveQuery(req.params.id, req.body)
-                if (result) {
-                    res.status(201)
-                        .set('Status-Text', 'Saved query created')
-                        .send(result)
-                } else {
-                    res.send('error')
-                }
+                // if (result) {
+                res.status(201)
+                    .set('Status-Text', 'Saved query created')
+                    .send(result)
+                // } else {
+                // res.send('error')
+                // }
             } else {
                 res.send({
                     error: result.array()
                 })
             }
         } catch (e) {
+            res.send(e.message)
             Sentry.captureException(e)
         }
     }
@@ -62,6 +64,7 @@ class QueryController {
                 })
             }
         } catch (e) {
+            res.send(e.message)
             Sentry.captureException(e)
         }
     }
@@ -81,8 +84,26 @@ class QueryController {
                 })
             }
         } catch (e) {
+            res.send(e.message)
             Sentry.captureException(e)
         }
+    }
+    async getFavorites(req, res) {
+        try {
+            const result = validationResult(req)
+            if (result.isEmpty()) {
+                const favorites = await queryService.getFavorites(req.userId)
+                res.send(favorites)
+            } else {
+                res.send({
+                    error: result.array()
+                })
+            }
+        } catch (e) {
+            res.send(e.message)
+            Sentry.captureException(e)
+        }
+
     }
 }
 module.exports = new QueryController()

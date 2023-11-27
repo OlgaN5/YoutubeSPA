@@ -17,6 +17,7 @@ class UserController {
                 })
             }
         } catch (e) {
+            res.send(e.message)
             Sentry.captureException(e)
         }
     }
@@ -36,6 +37,7 @@ class UserController {
                 })
             }
         } catch (e) {
+            res.send(e.message)
             Sentry.captureException(e)
         }
     }
