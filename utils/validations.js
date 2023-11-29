@@ -1,6 +1,6 @@
 const {
     body,
-    param
+    param,query
 } = require('express-validator')
 
 const registerValidation = [
@@ -20,9 +20,17 @@ const loginValidation = [
     body('password').notEmpty().isString(),
 ]
 
-const queryValidation = param('query').notEmpty().escape()
+const queryValidation = [
+    query('query').notEmpty().escape(),
+    query('prevPageToken').optional().escape().isString(),
+    query('nextPageToken').optional().escape().isString(),
+    query('title').optional().escape().isString(),
+    query('countResult').optional().escape().isInt(),
+    query('sortBy').optional().escape().isString()
+]
 const idValidation = param('id').notEmpty().escape()
 const parametersQueryValidation = [
+    body('title').optional().isString(),
     body('maxCount').optional().isInt(),
     body('sortBy').optional().isString(),
 ]

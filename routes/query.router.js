@@ -11,7 +11,7 @@ const {
 
 /**
  * @swagger
- * /api/query/search/{query}:
+ * /api/query/search:
  *   get:
  *     tags: 
  *       - Query
@@ -21,7 +21,7 @@ const {
  *       - bearerAuth: []
  *     parameters:
  *       - name: query
- *         in: path
+ *         in: query
  *         required: true
  *         default: video
  *       - name: nextPageToken
@@ -64,7 +64,7 @@ const {
  *             schema:
  *               $ref: '#/components/schemas/NoGoogleTokenResponse'
  */
-router.get('/search/:query', queryValidation, authenticate, queryController.search)
+router.get('/search', queryValidation, authenticate, queryController.search)
 /**
  * @swagger
  * /api/query/getFavourites:
@@ -186,6 +186,9 @@ router.post('/saveQuery/:id', savedQueryValidation, authenticate, queryControlle
  *           schema:
  *             type: object
  *             properties:
+ *               title:
+ *                 type: string
+ *                 default: name
  *               maxCount:
  *                 type: integer
  *                 default: 1
