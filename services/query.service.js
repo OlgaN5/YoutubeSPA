@@ -36,8 +36,9 @@ class QueryService {
         return searchResult.data
     }
 
-    async getResults(user, query, prevPageToken, nextPageToken, title, countResult, sortBy) {
+    async getResults(user, query, prevPageToken, nextPageToken, countResult, sortBy) {
         const userGoogleToken = user.googleToken
+        const uniqueSearchLine = query+prevPageToken+nextPageToken+countResult+sortBy
         if (!userGoogleToken) {
             return null
         }
@@ -45,7 +46,7 @@ class QueryService {
             text: query,
             userId: user.id
         })
-        const queryFromCache = cache.getCache('queryCache', query)
+        const queryFromCache = cache.getCache('queryCache', uniqueSearchLine)
         if (queryFromCache) {
             queryFromCache.queryId = createdQuery.dataValues.id
             return queryFromCache
@@ -60,7 +61,7 @@ class QueryService {
         const videosId = searchResult.items.map((item) => item.id.videoId).join(',')
         let videos = await this.getVideos(videosId, userGoogleToken)
         videos = await structure.transformate(videos, pagination, pageInfo)
-        cache.setCache('queryCache', query, videos)
+        cache.setCache('queryCache', uniqueSearchLine, videos)
         console.log(createdQuery.dataValues)
         videos.queryId = createdQuery.dataValues.id
         return videos
