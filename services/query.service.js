@@ -17,8 +17,7 @@ class QueryService {
         })
         return videos.data
     }
-    async search(query, pageToken, userGoogleToken, countResult, sortBy) {      
-        console.log(sortBy)
+    async search(query, pageToken, userGoogleToken, countResult, sortBy) {
         const searchParams = {
             q: query,
             key: userGoogleToken,
@@ -32,13 +31,13 @@ class QueryService {
         const searchResult = await axios.get('https://www.googleapis.com/youtube/v3/search', {
             params: searchParams
         })
-
+        console.log(searchResult.data.items[0].id)
         return searchResult.data
     }
 
     async getResults(user, query, prevPageToken, nextPageToken, countResult, sortBy) {
         const userGoogleToken = user.googleToken
-        const uniqueSearchLine = query+prevPageToken+nextPageToken+countResult+sortBy
+        const uniqueSearchLine = query + prevPageToken + nextPageToken + countResult + sortBy
         if (!userGoogleToken) {
             return null
         }
@@ -49,6 +48,7 @@ class QueryService {
         const queryFromCache = cache.getCache('queryCache', uniqueSearchLine)
         if (queryFromCache) {
             queryFromCache.queryId = createdQuery.dataValues.id
+            console.log(queryFromCache)
             return queryFromCache
         }
         const pageToken = prevPageToken || nextPageToken
@@ -62,8 +62,9 @@ class QueryService {
         let videos = await this.getVideos(videosId, userGoogleToken)
         videos = await structure.transformate(videos, pagination, pageInfo)
         cache.setCache('queryCache', uniqueSearchLine, videos)
-        console.log(createdQuery.dataValues)
+        // console.log(createdQuery.dataValues)
         videos.queryId = createdQuery.dataValues.id
+        console.log(videos)
         return videos
     }
 
