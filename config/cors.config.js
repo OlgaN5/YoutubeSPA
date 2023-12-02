@@ -1,8 +1,9 @@
 const cors = require('cors')
 module.exports = function corsUse(app) {
     app.use(cors({
-        // origin: 'http://localhost:3000',
+        origin: '*',
+        credentials: true,
         allowedHeaders: ['Authorization', 'Content-Type'],
-        credentials: true
+        exposedHeaders: ['Authorization', 'Content-Type']
     }))
 }
