@@ -17,10 +17,7 @@ class QueryService {
         })
         return videos.data
     }
-    async search(query, pageToken, userGoogleToken, countResult, sortBy) {
-        if (pageToken) {
-            searchParams.pageToken = pageToken
-        }
+    async search(query, pageToken, userGoogleToken, countResult, sortBy) {      
         console.log(sortBy)
         const searchParams = {
             q: query,
@@ -28,6 +25,9 @@ class QueryService {
             part: 'snippet',
             maxResults: countResult || 10,
             order: sortBy || 'relevance'
+        }
+        if (pageToken) {
+            searchParams.pageToken = pageToken
         }
         const searchResult = await axios.get('https://www.googleapis.com/youtube/v3/search', {
             params: searchParams
