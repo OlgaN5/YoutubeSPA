@@ -37,7 +37,7 @@ class QueryService {
 
     async getResults(user, query, prevPageToken, nextPageToken, countResult, sortBy) {
         const userGoogleToken = user.googleToken
-        const uniqueSearchLine = query + prevPageToken + nextPageToken + countResult + sortBy
+        const uniqueSearchLine = query + ' ' + prevPageToken + ' ' + nextPageToken + ' ' + countResult + ' ' + sortBy
         if (!userGoogleToken) {
             return null
         }
@@ -57,8 +57,13 @@ class QueryService {
             nextPageToken: searchResult.nextPageToken || null,
             prevPageToken: searchResult.prevPageToken || null
         }
+        console.log('pagination')
+        console.log(pagination)
         const pageInfo = searchResult.pageInfo
         const videosId = searchResult.items.map((item) => item.id.videoId).join(',')
+        console.log('videosId')
+        console.log(videosId)
+
         let videos = await this.getVideos(videosId, userGoogleToken)
         videos = await structure.transformate(videos, pagination, pageInfo)
         cache.setCache('queryCache', uniqueSearchLine, videos)

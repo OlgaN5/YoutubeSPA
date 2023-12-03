@@ -25,6 +25,6 @@ module.exports = db.define('user', {
     googleToken: {
         type: Sequelize.STRING,
         allowNull: true,
-        unique: true
+        unique: false
     }
 })
