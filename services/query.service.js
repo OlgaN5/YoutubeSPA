@@ -20,6 +20,7 @@ class QueryService {
     async search(query, pageToken, userGoogleToken, countResult, sortBy) {
         const searchParams = {
             q: query,
+            type: video,
             key: userGoogleToken,
             part: 'snippet',
             maxResults: countResult || 10,
