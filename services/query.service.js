@@ -53,6 +53,8 @@ class QueryService {
         }
         const pageToken = prevPageToken || nextPageToken
         const searchResult = await this.search(query, pageToken, userGoogleToken, countResult, sortBy)
+        console.log('searchResult')
+        console.log(searchResult)
         const pagination = {
             nextPageToken: searchResult.nextPageToken || null,
             prevPageToken: searchResult.prevPageToken || null
@@ -60,7 +62,11 @@ class QueryService {
         console.log('pagination')
         console.log(pagination)
         const pageInfo = searchResult.pageInfo
-        const videosId = searchResult.items.map((item) => item.id.videoId).join(',')
+        const videosId = searchResult.items.map((item) => {
+            console.log(item)
+            item.id.videoId
+        }).join(',')
+        console.log(videosId)
         console.log('videosId')
         console.log(videosId)
 
