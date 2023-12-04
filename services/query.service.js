@@ -64,7 +64,7 @@ class QueryService {
         const pageInfo = searchResult.pageInfo
         const videosId = searchResult.items.map((item) => {
             console.log(item)
-            item.id.videoId
+            return item.id.videoId
         }).join(',')
         console.log(videosId)
         console.log('videosId')
