@@ -54,8 +54,6 @@ class QueryService {
         }
         const pageToken = prevPageToken || nextPageToken
         const searchResult = await this.search(query, pageToken, userGoogleToken, countResult, sortBy)
-        console.log('searchResult')
-        console.log(searchResult)
         const pagination = {
             nextPageToken: searchResult.nextPageToken || null,
             prevPageToken: searchResult.prevPageToken || null
@@ -64,19 +62,12 @@ class QueryService {
         console.log(pagination)
         const pageInfo = searchResult.pageInfo
         const videosId = searchResult.items.map((item) => {
-            console.log(item)
             return item.id.videoId
         }).join(',')
-        console.log(videosId)
-        console.log('videosId')
-        console.log(videosId)
-
         let videos = await this.getVideos(videosId, userGoogleToken)
         videos = await structure.transformate(videos, pagination, pageInfo)
         cache.setCache('queryCache', uniqueSearchLine, videos)
-        // console.log(createdQuery.dataValues)
         videos.queryId = createdQuery.dataValues.id
-        console.log(videos)
         return videos
     }
 
