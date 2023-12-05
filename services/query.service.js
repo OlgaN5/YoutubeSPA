@@ -84,11 +84,14 @@ class QueryService {
         const result = await accessToDatabase.create(SavedQuery, {
             queryId: id
         })
+        result.dataValues.data = dataToUpdate
+        console.log(result)
         await accessToDatabase.update(Query, id, dataToUpdate)
         return result
     }
     async updateQuery(savedQueryId, dataToUpdate) {
-        return accessToDatabase.updateQuery(savedQueryId, dataToUpdate)
+         await accessToDatabase.updateQuery(savedQueryId, dataToUpdate)
+         return dataToUpdate
     }
     async getFavourites(id) {
         return await accessToDatabase.readAll(SavedQuery, {

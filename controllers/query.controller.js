@@ -54,10 +54,8 @@ class QueryController {
             const result = validationResult(req)
             if (result.isEmpty()) {
                 const result = await queryService.updateQuery(req.params.id, req.body)
-                const message = result ? 'query edited' : 'query not edited'
-                res.send({
-                    message: message
-                })
+                // const message = result ? 'query edited' : 'query not edited'
+                res.send(result)
             } else {
                 res.send({
                     error: result.array()
