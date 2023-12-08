@@ -8,9 +8,13 @@ function authenticate(req, res, next) {
             message: 'no token'
         })
         jwt.verify(token, process.env.SECRET_KEY, (err, data) => {
-            if (err) return res.status(403).json({
-                message: 'invalid token'
-            })
+            if (err) {
+                console.log('error')
+                console.log(err.message)
+                return res.status(403).json({
+                    message: 'invalid token'
+                })
+            }
             req.userId = data.id
             next()
         })
