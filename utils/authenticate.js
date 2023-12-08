@@ -7,6 +7,7 @@ function authenticate(req, res, next) {
         if (!token) return res.status(401).json({
             message: 'no token'
         })
+        consol.log(token)
         jwt.verify(token, process.env.SECRET_KEY, (err, data) => {
             if (err) {
                 // console.log('error')
