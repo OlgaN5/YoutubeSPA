@@ -14,7 +14,7 @@ class QueryController {
                 const user = await userService.findUserByConditions({
                     id: req.userId
                 })
-                const result = await queryService.getResults(user, req.query.query, req.query.prevPageToken, req.query.nextPageToken,  req.query.countResult, req.query.sortBy)
+                const result = await queryService.getResults(user, req.query.query, req.query.prevPageToken, req.query.nextPageToken, req.query.countResult, req.query.sortBy)
                 if (!result) return res.status(403).json('need a google token')
                 res.send(result)
             } else {
@@ -23,7 +23,13 @@ class QueryController {
                 })
             }
         } catch (e) {
-            res.send(e.message)
+            if (e.message === 'Request failed with status code 403') {
+                res.status(500)
+                    .set('Status-Text', 'The count of requests has been exceeded. Please wait or get a new token')
+                    .send()
+            } else {
+                res.send(e.message)
+            }
             Sentry.captureException(e)
         }
     }
@@ -31,11 +37,19 @@ class QueryController {
         try {
             const result = validationResult(req)
             if (result.isEmpty()) {
-                const result = await queryService.saveQuery(req.params.id, req.body)
-                // if (result) {
-                res.status(201)
-                    .set('Status-Text', 'Saved query created')
-                    .send(result)
+                const result = await queryService.saveQuery(req.params.id, req.body, req.userId)
+                if (!result) {
+                    return res.status(400)
+                        // .set('Status-Text', 'User do not have such query')
+                        .send({
+                            message: 'User has no query with such id'
+                        })
+
+                } else {
+                    return res.status(201)
+                        .set('Status-Text', 'Saved query created')
+                        .send(result)
+                }
                 // } else {
                 // res.send('error')
                 // }
@@ -90,6 +104,8 @@ class QueryController {
         try {
             const result = validationResult(req)
             if (result.isEmpty()) {
+                console.log('req.userId')
+                console.log(req.userId)
                 const favorites = await queryService.getFavourites(req.userId)
                 res.send(favorites)
             } else {
