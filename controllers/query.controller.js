@@ -26,7 +26,7 @@ class QueryController {
             if (e.message === 'Request failed with status code 403') {
                 res.status(500)
                     .set('Status-Text', 'The count of requests has been exceeded. Please wait or get a new token')
-                    .send()
+                    .send(e.message)
             } else {
                 res.send(e.message)
             }
