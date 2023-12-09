@@ -32,7 +32,7 @@ const {
  *               password:
  *                 type: string
  *                 default: password              
- *     description: returns registered user
+ *     description: gets email, login and password. Checks if such user is exist is system and if is not returns registered user
  *     summary: use to register user
  *     responses:
  *       '201': 

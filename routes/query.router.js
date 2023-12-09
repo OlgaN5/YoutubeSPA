@@ -15,8 +15,8 @@ const {
  *   get:
  *     tags: 
  *       - Query
- *     summary: use to get videos
- *     descrition: returns result of query
+ *     summary: use to search videos
+ *     description: gets query parameters returns result of this query
  *     security: 
  *       - bearerAuth: []
  *     parameters:
@@ -72,7 +72,7 @@ router.get('/search', queryValidation, authenticate, queryController.search)
  *     tags: 
  *       - Query
  *     summary: use to get videos
- *     descrition: returns result of query
+ *     description: returns the saved queries of this user
  *     security: 
  *       - bearerAuth: []
  *     responses:
@@ -86,15 +86,8 @@ router.get('/search', queryValidation, authenticate, queryController.search)
  *                 id:
  *                   type: integer
  *                   default: 4
- *                 query.text:
- *                   type: string
- *                   default: video
- *                 query.maxCount:
- *                   type: integer
- *                   default: 4
- *                 query.sortBy:
- *                   type: string
- *                   default: video
+ *                 query:
+ *                   $ref: '#/components/schemas/QueryParamsWithText'                 
  *       '401':
  *         descrition: Unauthorized
  *         content:
@@ -110,7 +103,7 @@ router.get('/getFavourites', authenticate, queryController.getFavourites)
  *     tags: 
  *       - Query
  *     summary: use to save query
- *     descrition: returns saved query
+ *     description: gets id of the query, saves it and returns the saved query
  *     security: 
  *       - bearerAuth: []
  *     parameters:
@@ -155,6 +148,18 @@ router.get('/getFavourites', authenticate, queryController.getFavourites)
  *                 updatedAt:
  *                   type: string
  *                   default: 2023-11-21T15:12:35.638Z
+ *                 data:
+ *                   $ref: '#/components/schemas/QueryParams'
+ *       '400':
+ *         descrition: query has saved succesfull
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   default: User has no query with such id
  *       '401':
  *         descrition: Unauthorized
  *         content:
@@ -170,7 +175,7 @@ router.post('/saveQuery/:id', savedQueryValidation, authenticate, queryControlle
  *     tags: 
  *       - Query
  *     summary: use to edit query
- *     descrition: returns edited query
+ *     description: gets new parameters, updates the query and returns the edited query
  *     security: 
  *       - bearerAuth: []
  *     parameters:
@@ -184,17 +189,7 @@ router.post('/saveQuery/:id', savedQueryValidation, authenticate, queryControlle
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               title:
- *                 type: string
- *                 default: name
- *               maxCount:
- *                 type: integer
- *                 default: 1
- *               sortBy:
- *                 type: string
- *                 default: ''
+ *             $ref: '#/components/schemas/QueryParams'
  *     responses:
  *       '200':
  *         descrition: query has saved succesfull
@@ -221,7 +216,7 @@ router.patch('/editSavedQuery/:id', savedQueryValidation, authenticate, queryCon
  *     tags: 
  *       - Query
  *     summary: use to delete saved query
- *     descrition: returns deleted query
+ *     description: deletes the query and returns it
  *     security: 
  *       - bearerAuth: []
  *     parameters:

@@ -4,40 +4,40 @@ const {
 } = require('express-validator')
 
 const registerValidation = [
-    body('login').notEmpty().escape().isString().isLength({
+    body('login').notEmpty().trim().escape().isString().isLength({
         min: 3,
         max: 10
     }).withMessage('Login has to be between 3 and 10'),
-    body('email').notEmpty().escape().isString().isEmail().withMessage(`It isn't email`),
-    body('password').notEmpty().escape().isString().isLength({
+    body('email').notEmpty().trim().escape().isString().isEmail().withMessage(`It isn't email`),
+    body('password').notEmpty().trim().escape().isString().isLength({
         min: 3,
         max: 15
     }).withMessage('Password has to be between 3 and 15'),
 ]
 
 const loginValidation = [
-    body('login').notEmpty().escape().isString(),
-    body('password').notEmpty().isString(),
+    body('login').notEmpty().trim().escape().isString(),
+    body('password').notEmpty().trim().isString(),
 ]
 
 const queryValidation = [
-    query('query').notEmpty().escape(),
-    query('prevPageToken').optional().escape().isString(),
-    query('nextPageToken').optional().escape().isString(),
-    query('title').optional().escape().isString(),
-    query('countResult').optional().escape().isInt(),
-    query('sortBy').optional().escape().isString()
+    query('query').notEmpty().trim().escape(),
+    query('prevPageToken').optional().trim().escape().isString(),
+    query('nextPageToken').optional().trim().escape().isString(),
+    query('title').optional().trim().escape().isString(),
+    query('countResult').optional().trim().escape().isInt(),
+    query('sortBy').optional().trim().escape().isString()
 ]
 const idValidation = param('id').notEmpty().escape()
 const parametersQueryValidation = [
-    body('title').optional().isString(),
-    body('maxCount').optional().isInt(),
-    body('sortBy').optional().isString(),
+    body('title').optional().trim().isString(),
+    body('maxCount').optional().trim().isInt(),
+    body('sortBy').optional().trim().isString(),
 ]
 const savedQueryValidation = parametersQueryValidation.concat(idValidation)
 
 const addTokenValidation = [
-    body('googleToken').notEmpty().escape().isString()
+    body('googleToken').notEmpty().trim().escape().isString()
 ]
 
 module.exports = {

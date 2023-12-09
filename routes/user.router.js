@@ -113,12 +113,39 @@ router.get('/logout', authenticate, userController.logout)
  *       type: array
  *       items:
  *         $ref: '#/components/schemas/Item'
+ *     QueryParams:
+ *        type: object
+ *        properties:
+ *          title:
+ *            type: string
+ *            default: name
+ *          maxCount:
+ *            type: integer
+ *            default: 1
+ *          sortBy:
+ *            type: string
+ *            default: ''
+ *     QueryParamsWithText:
+ *        type: object
+ *        properties:
+ *          title:
+ *            type: string
+ *            default: name
+ *          text:
+ *            type: string
+ *            default: text
+ *          maxCount:
+ *            type: integer
+ *            default: 1
+ *          sortBy:
+ *            type: string
+ *            default: ''
  * /api/user/addGoogleToken:
  *   post:
  *     tags: 
  *       - Users
  *     summary: use to add google token
- *     descrition: returns user
+ *     description: gets google token, writes it for user
  *     security: 
  *       - bearerAuth: []
  *     requestBody:

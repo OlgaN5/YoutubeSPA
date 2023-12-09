@@ -71,7 +71,15 @@ class QueryService {
         return videos
     }
 
-    async saveQuery(id, dataToUpdate) {
+    async saveQuery(id, dataToUpdate, userId) {
+        const queryById = await accessToDatabase.readOne(Query, {
+            id
+        })
+        console.log('queryById')
+        console.log(userId != queryById.userId)
+        if (userId != queryById.userId) return null
+        console.log('here')
+
         const result = await accessToDatabase.create(SavedQuery, {
             queryId: id
         })
@@ -81,8 +89,8 @@ class QueryService {
         return result
     }
     async updateQuery(savedQueryId, dataToUpdate) {
-         await accessToDatabase.updateQuery(savedQueryId, dataToUpdate)
-         return dataToUpdate
+        await accessToDatabase.updateQuery(savedQueryId, dataToUpdate)
+        return dataToUpdate
     }
     async getFavourites(id) {
         return await accessToDatabase.readAll(SavedQuery, {
