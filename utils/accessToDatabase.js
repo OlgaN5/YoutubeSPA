@@ -6,11 +6,7 @@ const {
 const sequelize = require('sequelize')
 class AccessToDatabase {
     async create(Model, data) {
-        // try {
         return await Model.create(data)
-        // } catch {
-        // return null
-        // }
     }
     async update(Model, id, dataToUpdate) {
         return await Model.update(dataToUpdate, {
@@ -51,7 +47,6 @@ class AccessToDatabase {
                 attributes: ['title','text', 'maxCount', 'sortBy']
             },
             attributes: ['id'],
-            // raw: афдыу
         })
         console.log('11111111')
         console.log(result)
@@ -61,7 +56,6 @@ class AccessToDatabase {
         console.log(conditions)
         return await Model.destroy({
             where: conditions,
-            // raw: true
         })
     }
 }

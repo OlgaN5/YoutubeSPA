@@ -18,10 +18,6 @@ class LoginController {
                     login,
                     password
                 } = req.body
-                // const identificator = login ? 'login' : 'email'
-                // const conditions = {
-                //     [identificator]: req.body[identificator]
-                // }
                 const conditions = {
                     login: login
                 }

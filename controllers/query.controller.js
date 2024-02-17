@@ -41,7 +41,6 @@ class QueryController {
                 const result = await queryService.saveQuery(req.params.id, req.body, req.userId)
                 if (!result) {
                     return res.status(400)
-                        // .set('Status-Text', 'User do not have such query')
                         .send({
                             message: 'User has no query with such id'
                         })
@@ -51,9 +50,6 @@ class QueryController {
                         .set('Status-Text', 'Saved query created')
                         .send(result)
                 }
-                // } else {
-                // res.send('error')
-                // }
             } else {
                 res.send({
                     error: result.array()
@@ -69,7 +65,6 @@ class QueryController {
             const result = validationResult(req)
             if (result.isEmpty()) {
                 const result = await queryService.updateQuery(req.params.id, req.body)
-                // const message = result ? 'query edited' : 'query not edited'
                 res.send(result)
             } else {
                 res.send({

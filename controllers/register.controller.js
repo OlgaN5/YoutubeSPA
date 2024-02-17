@@ -1,4 +1,3 @@
-const registerService = require('../services/register.service')
 const bcrypt = require('bcrypt')
 const {
     validationResult
@@ -36,7 +35,7 @@ class RegisterController {
                         message: 'login is exist'
                     })
                 }
-                const hashedPassword = await bcrypt.hashSync(password, saltRounds)
+                const hashedPassword = await bcrypt.hash(password, saltRounds)
                 const user = await userService.createUser({
                     email,
                     login,
