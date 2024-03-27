@@ -1,6 +1,9 @@
 **YoutubeSPA**
 (eng/rus)
 
+</br>
+**English**
+
 **Description**: 
 
 Authorized users can request videos from Youtube. Requests are stored in the database. Request can be added to favorites, deleted and edited
@@ -46,8 +49,9 @@ There are relationships between the tables:
 ![alt text](README.image/DBSchema.jpg)
 
 
+</br>
 
-
+**Russian**
 
 **Описание**: 
 
